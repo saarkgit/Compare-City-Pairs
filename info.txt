@@ -1,0 +1,33 @@
+https://simplemaps.com/data/world-cities
+
+GOAL
+Create a game where the goal is to guess which pair of capital cities are closer to one another
+
+Distance between capital cities 
+	Compare two pairs of cities
+	Endless game
+	Hints (country / flag?)
+
+
+
+need to decide if to keep multi city capital and make sure they aren't chosen together or just decide on one
+
+Should I do the math once and store the distance between every city (~53,000) results or do it on the fly?
+
+
+COUNTRIES WITH MULTIPLE PRIMARY CITIES
+Morocco: rabat is capital, "Tifariti" is south saharan/disputed
+Netherlands: amsterdam is capital, "The Hague" is the seat of government
+    South Africa: cape town is capital (legislative), Bloemfontein (judicial), Pretoria (executive)
+Côte d’Ivoire: Yamoussoukro is capital, Abidjan is the old capital
+Benin: Porto-Novo is capital, Cotonou is seat of government
+Montserrat: Brades is capital, Plymouth was old capital that got volcanoed (british overseas territory)
+Burundi: Gitega is capital, Bujumbura was old
+    Sri Lanka: Colombo is executive and judicial capital (de facto), Sri Jayewardenepura Kotte is legislative
+    Eswatini: Lobamba (de facto). Mbabane (executive)
+Bolivia: Sucre (de jure) (judicial), la paz (executive, legislative)
+Malaysia: Kuala Lumpur is capital, Putrajaya is the judiciary, executive offices
+Burma/Myanmar: Nay Pyi Taw is capital, Rangoon/Yangon old capital
+
+removed capital cities with less than 400 ppl (territories or ghost towns)
+removed some territories
