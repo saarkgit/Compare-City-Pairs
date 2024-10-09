@@ -15,12 +15,6 @@ def restart_game():
     initialize_ui(csv)
 
 
-# # Function to create and show the Plotly map for the first pair of cities
-# df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist = main(
-#     "capital_cities_fixed.csv"
-# )
-
-
 def set_correct_value_label(correct):
     for widget in root.winfo_children():  # Remove previous widgets
         widget.destroy()
@@ -39,7 +33,9 @@ def set_correct_value_label(correct):
         f"The capitals {df_first_pair_of_cities['city'].iloc[0]} and {df_first_pair_of_cities['city'].iloc[1]} are {pair_one_dist}km away."
         + f"\nWhilst {df_second_pair_of_cities['city'].iloc[0]} and {df_second_pair_of_cities['city'].iloc[1]} are {pair_two_dist}km away."
     )
-    info_label = tk.Label(root, text=info_text, font=("Helvetica", 16), wraplength=550, justify="center")
+    info_label = tk.Label(
+        root, text=info_text, font=("Helvetica", 16), wraplength=550, justify="center"
+    )
     info_label.pack()
 
     see_globe_button = tk.Button(
@@ -59,15 +55,13 @@ def set_correct_value_label(correct):
         root,
         text="Play Again",
         font=("Helvetica", 22),
-        command=restart_game,  # Calls the restart function to reset the game LAMBDA?
+        command=restart_game,  # Calls the restart function to reset the game. LAMBDA?
     )
     restart_button.pack(pady=30)
 
 
 def get_user_answer(answer):
     user_correct_bool = check_for_answer(
-        df_first_pair_of_cities,
-        df_second_pair_of_cities,
         pair_one_dist,
         pair_two_dist,
         answer,
@@ -108,9 +102,6 @@ root = tk.Tk()
 root.title("Compare City-Pairs")
 root.geometry("600x400")
 
-# df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist = (
-#         main("capital_cities_fixed.csv")
-#     )
 initialize_ui(csv)
 
 root.mainloop()
