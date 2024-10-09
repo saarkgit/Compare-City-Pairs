@@ -102,40 +102,46 @@ def draw_connections(
 
 
 def check_for_answer(
-    df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist
+    df_first_pair_of_cities,
+    df_second_pair_of_cities,
+    pair_one_dist,
+    pair_two_dist,
+    user_answer,
 ):
-    print(f"Which capital cities are closer together? (a or b)")
-    user_answer = input(
-        f"a: ({df_first_pair_of_cities['city'].iloc[0]}, {df_first_pair_of_cities['city'].iloc[1]})"
-        + f" or b: ({df_second_pair_of_cities['city'].iloc[0]}, {df_second_pair_of_cities['city'].iloc[1]})\n"
-    )
+    # print(f"Which capital cities are closer together? (a or b)")
+    # user_answer = input(
+    #     f"a: ({df_first_pair_of_cities['city'].iloc[0]}, {df_first_pair_of_cities['city'].iloc[1]})"
+    #     + f" or b: ({df_second_pair_of_cities['city'].iloc[0]}, {df_second_pair_of_cities['city'].iloc[1]})\n"
+    # )
 
-    invalid_answer = True
-    while invalid_answer:
-        if user_answer == "a" or user_answer == "b":
-            invalid_answer = False
-        else:
-            user_answer = input("Please input a valid response.")
+    # invalid_answer = True
+    # while invalid_answer:
+    #     if user_answer == "a" or user_answer == "b":
+    #         invalid_answer = False
+    #     else:
+    #         user_answer = input("Please input a valid response.")
 
-    user_correct = False
+    user_correctness = False
     if user_answer == "a":
-        user_correct = pair_one_dist < pair_two_dist
+        user_correctness = pair_one_dist < pair_two_dist
     else:
-        user_correct = pair_two_dist < pair_one_dist
+        user_correctness = pair_two_dist < pair_one_dist
 
-    if user_correct:
-        print("You are correct!")
-    else:
-        print("Better luck next time!")
+    # if user_correct:
+    #     print("You are correct!")
+    # else:
+    #     print("Better luck next time!")
 
-    print(
-        f"The capitals {df_first_pair_of_cities['city'].iloc[0]} and {df_first_pair_of_cities['city'].iloc[1]} are {pair_one_dist} away."
-        + f"\nWhilst {df_second_pair_of_cities['city'].iloc[0]} and {df_second_pair_of_cities['city'].iloc[1]} are {pair_two_dist} away."
-    )
+    # print(
+    #     f"The capitals {df_first_pair_of_cities['city'].iloc[0]} and {df_first_pair_of_cities['city'].iloc[1]} are {pair_one_dist} away."
+    #     + f"\nWhilst {df_second_pair_of_cities['city'].iloc[0]} and {df_second_pair_of_cities['city'].iloc[1]} are {pair_two_dist} away."
+    # )
 
-    draw_connections(
-        df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist
-    )
+    return user_correctness
+
+    # draw_connections(
+    #     df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist
+    # )
 
 
 # csv_file = "capital_cities_fixed.csv"
