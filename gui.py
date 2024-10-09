@@ -1,10 +1,24 @@
 import tkinter as tk
 from capital_pairs_compare import main, check_for_answer, draw_connections
 
-# Function to create and show the Plotly map for the first pair of cities
-df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist = main(
-    "capital_cities_fixed.csv"
-)
+csv = "capital_cities_fixed.csv"
+
+
+def restart_game():
+    # global df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist
+
+    # Clear the screen and reset the UI
+    for widget in root.winfo_children():
+        widget.destroy()
+
+    # Rebuild the initial UI
+    initialize_ui(csv)
+
+
+# # Function to create and show the Plotly map for the first pair of cities
+# df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist = main(
+#     "capital_cities_fixed.csv"
+# )
 
 
 def set_correct_value_label(correct):
@@ -12,18 +26,23 @@ def set_correct_value_label(correct):
         widget.destroy()
 
     if correct:
-        label = tk.Label(
+        correctness_label = tk.Label(
             root, text="You are correct!", font=("Helvetica", 26), fg="green"
         )
-        label.pack(pady=50)
     else:
-        label = tk.Label(
+        correctness_label = tk.Label(
             root, text="Better luck next time!", font=("Helvetica", 26), fg="red"
         )
-    
-    label.pack(pady=50)
+    correctness_label.pack(pady=20)
 
-    button3 = tk.Button(
+    info_text = (
+        f"The capitals {df_first_pair_of_cities['city'].iloc[0]} and {df_first_pair_of_cities['city'].iloc[1]} are {pair_one_dist}km away."
+        + f"\nWhilst {df_second_pair_of_cities['city'].iloc[0]} and {df_second_pair_of_cities['city'].iloc[1]} are {pair_two_dist}km away."
+    )
+    info_label = tk.Label(root, text=info_text, font=("Helvetica", 16), wraplength=550, justify="center")
+    info_label.pack()
+
+    see_globe_button = tk.Button(
         root,
         text="See distances on a globe?",
         font=("Helvetica", 22),
@@ -34,7 +53,15 @@ def set_correct_value_label(correct):
             pair_two_dist,
         ),
     )
-    button3.pack(pady=30)
+    see_globe_button.pack(pady=30)
+
+    restart_button = tk.Button(
+        root,
+        text="Play Again",
+        font=("Helvetica", 22),
+        command=restart_game,  # Calls the restart function to reset the game LAMBDA?
+    )
+    restart_button.pack(pady=30)
 
 
 def get_user_answer(answer):
@@ -49,33 +76,41 @@ def get_user_answer(answer):
     set_correct_value_label(user_correct_bool)
 
 
-# Create the main application window
+def initialize_ui(csv):
+    global df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist
+    df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist = (
+        main(csv)
+    )
+    # Create a label
+    label = tk.Label(root, text="Compare City-Pairs", font=("Helvetica", 32))
+    label.pack(pady=20)
+
+    # Create the first button
+    first_pair_button = tk.Button(
+        root,
+        text=f"{df_first_pair_of_cities.iloc[0]['city']} to {df_first_pair_of_cities.iloc[1]['city']}",
+        font=("Helvetica", 22),
+        command=lambda: get_user_answer("a"),
+    )
+    first_pair_button.pack(pady=30)
+
+    # Create the second button
+    second_pair_button = tk.Button(
+        root,
+        text=f"{df_second_pair_of_cities.iloc[0]['city']} to {df_second_pair_of_cities.iloc[1]['city']}",
+        font=("Helvetica", 22),
+        command=lambda: get_user_answer("b"),
+    )
+    second_pair_button.pack(pady=10)
+
+
 root = tk.Tk()
 root.title("Compare City-Pairs")
 root.geometry("600x400")
 
-# Create a label
-label = tk.Label(root, text="Compare City-Pairs", font=("Helvetica", 32))
-label.pack(pady=20)
+# df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist = (
+#         main("capital_cities_fixed.csv")
+#     )
+initialize_ui(csv)
 
-# Create the first button
-button1 = tk.Button(
-    root,
-    text=f"{df_first_pair_of_cities.iloc[0]['city']} to {df_first_pair_of_cities.iloc[1]['city']}",
-    font=("Helvetica", 22),
-    command=lambda: get_user_answer("a"),
-)
-button1.pack(pady=30)
-
-# Create the second button
-button2 = tk.Button(
-    root,
-    text=f"{df_second_pair_of_cities.iloc[0]['city']} to {df_second_pair_of_cities.iloc[1]['city']}",
-    font=("Helvetica", 22),
-    command=lambda: get_user_answer("b"),
-)
-button2.pack(pady=10)
-
-# Start the Tkinter event loop
 root.mainloop()
-# RESET GAME
