@@ -39,6 +39,68 @@ def gen_rand_pairs(df):
     )
 
 
+def draw_connections(
+    df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist
+):
+    fig = go.Figure()
+
+    city_pairs = [
+        (df_first_pair_of_cities, "blue", (pair_one_dist)),
+        (df_second_pair_of_cities, "red", (pair_two_dist)),
+    ]
+
+    for df_pair, color, dist in city_pairs:
+        # Extract latitudes and longitudes
+        lats = df_pair["lat"]
+        lons = df_pair["lng"]
+        cities = df_pair["city"]
+        countries = df_pair["country"]
+
+        # Add line trace connecting the two cities
+        fig.add_trace(
+            go.Scattergeo(
+                lon=lons,
+                lat=lats,
+                mode="lines",
+                line=dict(width=2, color=color),
+                name=f"{cities.iloc[0]}, {countries.iloc[0]} to {cities.iloc[1]}, {countries.iloc[1]}, {dist} km",
+            )
+        )
+
+        # Add marker trace for the cities with labels
+        fig.add_trace(
+            go.Scattergeo(
+                lon=lons,
+                lat=lats,
+                mode="markers+text",
+                text=cities,
+                textposition="top center",
+                marker=dict(size=5, color=color),
+                showlegend=False,  # Hide individual city markers from the legend
+            )
+        )
+
+    # Update the layout of the figure
+    fig.update_layout(
+        title_text="Capital City Connections",
+        showlegend=True,
+        legend=dict(title="Routes", x=0.75, y=0.95),
+        geo=dict(
+            projection_type="orthographic",
+            showland=True,
+            landcolor="rgb(243, 243, 243)",
+            # oceancolor="rgb(0, 0, 243)",
+            # countrycolor="rgb(204, 204, 204)",
+            showcountries=True,
+            # showocean = True,
+        ),
+        height=800,
+    )
+
+    # Display the figure
+    fig.show()
+
+
 def check_for_answer(
     df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist
 ):
@@ -71,71 +133,17 @@ def check_for_answer(
         + f"\nWhilst {df_second_pair_of_cities['city'].iloc[0]} and {df_second_pair_of_cities['city'].iloc[1]} are {pair_two_dist} away."
     )
 
-
-df = pd.read_csv("capital_cities_fixed.csv")
-df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist = (
-    gen_rand_pairs(df)
-)
-
-check_for_answer(
-    df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist
-)
-
-# VISUALS 2
-fig = go.Figure()
-
-city_pairs = [
-    (df_first_pair_of_cities, "blue", (pair_one_dist)),
-    (df_second_pair_of_cities, "red", (pair_two_dist)),
-]
-
-for df_pair, color, dist in city_pairs:
-    # Extract latitudes and longitudes
-    lats = df_pair["lat"]
-    lons = df_pair["lng"]
-    cities = df_pair["city"]
-    countries = df_pair["country"]
-
-    # Add line trace connecting the two cities
-    fig.add_trace(
-        go.Scattergeo(
-            lon=lons,
-            lat=lats,
-            mode="lines",
-            line=dict(width=2, color=color),
-            name=f"{cities.iloc[0]}, {countries.iloc[0]} to {cities.iloc[1]}, {countries.iloc[1]}, {dist}",
-        )
+    draw_connections(
+        df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist
     )
 
-    # Add marker trace for the cities with labels
-    fig.add_trace(
-        go.Scattergeo(
-            lon=lons,
-            lat=lats,
-            mode="markers+text",
-            text=cities,
-            textposition="top center",
-            marker=dict(size=5, color=color),
-            showlegend=False,  # Hide individual city markers from the legend
-        )
-    )
 
-# Update the layout of the figure
-fig.update_layout(
-    title_text="Capital City Connections",
-    showlegend=True,
-    legend=dict(title="Routes", x=0.75, y=0.95),
-    geo=dict(
-        projection_type="orthographic",
-        showland=True,
-        landcolor="rgb(243, 243, 243)",
-        # oceancolor="rgb(0, 0, 243)",
-        # countrycolor="rgb(204, 204, 204)",
-        showcountries=True,
-        # showocean = True,
-    ),
-    height=800,
-)
+# csv_file = "capital_cities_fixed.csv"
+def main(csv_file):
+    df = pd.read_csv(csv_file)
+    return gen_rand_pairs(df)
 
-# Display the figure
-fig.show()
+
+# check_for_answer(
+#     df_first_pair_of_cities, df_second_pair_of_cities, pair_one_dist, pair_two_dist
+# )
