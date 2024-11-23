@@ -79,6 +79,14 @@ def initialize_ui(csv):
     label = tk.Label(root, text="Compare City-Pairs", font=("Helvetica", 32))
     label.pack(pady=20)
 
+    desc_text = f"Select the pair of cities that is closest geographically."
+
+    desc_label = tk.Label(
+        root, text=desc_text, font=("Helvetica", 16), wraplength=550, justify="center", fg="blue"
+    )
+
+    desc_label.pack()
+
     # Create the first button
     first_pair_button = tk.Button(
         root,
